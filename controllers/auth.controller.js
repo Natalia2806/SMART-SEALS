@@ -27,7 +27,7 @@ export const register = async (req, res) => {
         const user = new User({ email: email, password: password });
         await user.save();
         //JWT
-        return res.json({ ok: true });
+        return res.json({ message: "usuario registrado correctamente!" });
     } catch (error) {
         if (error.code === 11000) {
             return res.status(400).json({ error: "Email already exists" });

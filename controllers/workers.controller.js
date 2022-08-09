@@ -83,8 +83,13 @@ export const deleteWorkers = async (req, res) => {
     try {
         await Elements.deleteMany({ trabajador: id })
         await Workers.findByIdAndDelete({ _id: id })
-            .then(() => {
-                res.status(200).json(getSucessResponseFormat("Trabajador eliminado correctamente!"));
+            .then((data) => {
+                if (data) {
+                    res.status(200).json(getSucessResponseFormat("Trabajador eliminado correctamente!"));
+                } else {
+                    res.status(400).json(getErrorResponseFormat("No existe ese trabajador"));
+                }
+
             })
             .catch((error) => {
                 res.status(400).json(getErrorResponseFormat("Error al eliminar el trabajador"));

@@ -35,6 +35,9 @@ export const createBrigade = async (req, res) => {
                     res.status(200).json(getSucessResponseFormat("Brigada creada correctamente!"));
                 })
                 .catch((error) => {
+                    if (error.code === 11000) {
+                        return res.status(400).json(getErrorResponseFormat("El nombre de la brigada o la placa ya existen"));
+                    }
                     res.status(400).json(getErrorResponseFormat("Something went wrong"));
                 })
         }

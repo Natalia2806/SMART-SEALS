@@ -5,12 +5,17 @@ import authRoutes from "./routes/auth.routes.js";
 import brigadeRoutes from "./routes/brigade.routes.js";
 import workerRoutes from "./routes/workers.routes.js";
 import elementRoutes from "./routes/elements.routes.js";
+import { verificaToken } from "./middlewares/authenticate.js";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//RUTAS SIN TOKEN
 app.use('/', authRoutes);
+
+//RUTAS CON TOKEN 
+app.use(verificaToken);
 app.use('/brigade', brigadeRoutes)
 app.use('/workers', workerRoutes)
 app.use('/elements', elementRoutes)
