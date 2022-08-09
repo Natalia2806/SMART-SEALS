@@ -1,9 +1,8 @@
 import { Brigade } from "../models/Brigadista.js";
 import { Workers } from '../models/workers.js';
-
-
 import { getErrorResponseFormat } from "../helpers/errorFunctions.js";
 import { getSucessResponseFormat } from "../helpers/errorFunctions.js";
+
 
 export const getBrigadistas = async (req, res) => {
     try {
@@ -67,8 +66,7 @@ export const updateBrigade = async (req, res) => {
 export const deleteBrigade = async (req, res) => {
     const { id } = req.params;
     try {
-
-        // await Workers.deleteMany({ brigada: id }).exec();
+        await Workers.updateMany({ brigada: id }, { $set: { brigada: null } }).exec();
         await Brigade.findByIdAndDelete({ _id: id })
             .then((data) => {
                 res.status(200).json(getSucessResponseFormat("Brigada eliminada correctamente!"));

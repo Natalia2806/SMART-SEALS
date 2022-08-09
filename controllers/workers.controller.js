@@ -1,11 +1,13 @@
 import { Workers } from '../models/workers.js';
+import { Brigade } from "../models/Brigadista.js";
+import { Elements } from '../models/Elements.js';
 import { getErrorResponseFormat } from "../helpers/errorFunctions.js";
 import { getSucessResponseFormat } from "../helpers/errorFunctions.js";
 
 export const getWorkers = async (req, res) => {
     try {
         await Workers.find({}, { __v: 0 })
-            .populate({path:'brigada', select:'name vehicle_plate '})
+            .populate({ path: 'brigada', select: 'name vehicle_plate ' })
             .then((data) => {
                 res.status(200).json(getSucessResponseFormat(data));
             })
@@ -27,8 +29,9 @@ export const createWorkers = async (req, res) => {
         if (worker) {
             return res.status(400).json(getErrorResponseFormat("Worker already exists"));
         } else {
-            if (body.brigada === "" || body.brigada === undefined) {
-                return res.status(400).json(getErrorResponseFormat("Debe ingresar una brigada"));
+            const brigada = await Brigade.findOne({ _id: body.brigada })
+            if (!brigada) {
+                return res.status(400).json(getErrorResponseFormat("No existe esa brigada"));
             }
             await Workers.create(body)
                 .then((data) => {
@@ -56,6 +59,10 @@ export const updateWorkers = async (req, res) => {
     }
 
     try {
+        const brigada = await Brigade.findOne({ _id: body.brigada })
+        if (!brigada) {
+            return res.status(400).json(getErrorResponseFormat("No existe esa brigada"));
+        }
         await Workers.findByIdAndUpdate({ _id: body.id }, data)
             .then(() => {
                 res.status(200).json(getSucessResponseFormat("Trabajador actualizado correctamente!"));
@@ -74,13 +81,13 @@ export const updateWorkers = async (req, res) => {
 export const deleteWorkers = async (req, res) => {
     const { id } = req.params;
     try {
+        await Elements.deleteMany({ trabajador: id })
         await Workers.findByIdAndDelete({ _id: id })
             .then(() => {
                 res.status(200).json(getSucessResponseFormat("Trabajador eliminado correctamente!"));
             })
             .catch((error) => {
-                console.log(error)
-                res.status(400).json(getErrorResponseFormat("Error al eliminar trabajador"));
+                res.status(400).json(getErrorResponseFormat("Error al eliminar el trabajador"));
             })
     } catch (error) {
         console.log(error)

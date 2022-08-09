@@ -2,24 +2,26 @@ import mongoose from "mongoose";
 
 const ElementsSchema = new mongoose.Schema({
     longitud: {
-        type: Decimal,
+        type: Number,
         required: true,
         trim: true,
         unique: true,
         lowercase: true,
     },
     latitud:{
-        type: String,
+        type: Number,
         required: true,
         trim: true,
         unique: true,
         lowercase: true,
     },
     trabajador:{
-        type: Boolean,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Workers' 
     },
     status:{
-        type: Boolean,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Status' 
     }
 });
 
