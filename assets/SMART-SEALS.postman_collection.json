@@ -1,0 +1,683 @@
+{
+	"info": {
+		"_postman_id": "37189c18-a69e-4352-9288-f8716eba4cf1",
+		"name": "SMART-SEALS",
+		"description": "Api de trazabilidad de brigadas\n\nFunciones:\n\n*   Crear, eliminar, obtener y actualizar las brigadas\n*   Crear, eliminar, obtener y actualizar las trabajadores\n*   Crear, eliminar, obtener y actualizar las elementos\n*   Listar los estados\n    \n\nAdemás cuenta con un sistema de autenticación de usuario el cual fue implementado con JWT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17377428"
+	},
+	"item": [
+		{
+			"name": "Aunteticación",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kell4@GMAIL.com\",\r\n    \"password\": \"123456\"\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "tuirannatalia@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Desde el cuerpo de solicitud se envía el **email** y el **password**. Valida que las credenciales existan, si la validación es correcta nos retornará el token de lo contrario nos notificará que ocurrió\n\n**Respuesta usuario logueado correctamente:**\n\n![](https://content.pstmn.io/3bd95ea0-0b60-4d58-830f-1addd510a1d6/bG9naW4tcy5wbmc=)\n\n**Respuesta usuario logueado incorrectamente:**\n\n![](https://content.pstmn.io/abf353d8-7d4b-4df4-b30e-65e965024b13/bG9naW4tbm90LnBuZw==)"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"jorge1@GMAIL.com\",\r\n    \"password\": \"123456\",\r\n    \"confirmPassword\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"register"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "tuirannatalia@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Desde el cuerpo de solicitud se envía el **email** y el **password**. Valida que las credenciales no existan y crea el usuario\n\n**Usuario creado**\n\n![](https://content.pstmn.io/f157287f-be68-442f-9b69-dcc93c1312dd/cmVnaXN0ZXIucG5n)\n\n**Usuario existente**\n\n![](https://content.pstmn.io/3b7cac7f-8e37-4628-9c7b-ec1222a85549/cmVnaXN0ZXItZXhpc3QucG5n)"
+					},
+					"response": []
+				}
+			],
+			"description": "Este Folder es donde se realiza la autenticación y creación del usuario, una vez que el usuario inicio sesión correctamente, tendrá como respuesta el Token.\n\n**Importante:**\n\nCuando obtenemos el token este debe ser pasado como valor a la variable **toke**\n\n![](https://content.pstmn.io/c59c9fe6-acd6-404e-bde2-859ddece669c/dG9rZW4ucG5n)\n\nEsta variable se creo de forma global, con la finalidad de asignarla a al resto de colecciones que necesitan autenticación",
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Brigadas",
+			"item": [
+				{
+					"name": "ObtenerBrigada",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/brigade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brigade"
+							]
+						},
+						"description": "Obtiene todas la brigadas existentes"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearBrigada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"emergencia5\",\r\n    \"vehicle_plate\": \"aaa450\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/brigade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brigade"
+							]
+						},
+						"description": "Crea una nueva brigada partiendo del cuerpo de solicitud, se le debe asignar un nombre y la placa:\n\n*   No se puede crear una brigada existente\n    \n\n![](https://content.pstmn.io/9b53d050-2518-4762-9c7a-66abd2d1fad6/YnJpZ2FkYS5wbmc=)"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarBrigada",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "EMER1",
+									"type": "text"
+								},
+								{
+									"key": "vehicle_plate",
+									"value": "asd125",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "62f17490c0c888f0df3c32ca",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/brigade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brigade"
+							]
+						},
+						"description": "Para actualizar una brigada se le debe pasar el id para identificar cual es especificamente la brigada que queremos actualizar\n\n*   Podemos utilizar el método GET para obtener el id de la brigada que queremos actualizar.\n    \n\n![](https://content.pstmn.io/b37ad7ec-1e0d-4e0e-adfc-11bbacf2751f/cmVzcG9uc2UucG5n)"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarBrigada",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/brigade/62f1f7ebc361807bdb00914a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brigade",
+								"62f1f7ebc361807bdb00914a"
+							]
+						},
+						"description": "Le pasamos un parámetro el cual es el {id} del trabajador que queremos eliminar, de igual forma que con el PUT, podemos consultar el método GET para saber cual es la brigada que queremos eliminar\n\n![](https://content.pstmn.io/37e1b0e4-2df3-49fa-945e-6042814574f9/ZWxpbWFyLWIucG5n)"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestiona las brigadas",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Trabajadores",
+			"item": [
+				{
+					"name": "ObtenerTrabajadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/workers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workers"
+							]
+						},
+						"description": "Obtenemos todos los usuarios existentes.\n\n**Importante:**\n\nCuando se elimina una brigada, no se eliminarán los trabajadores asociados a ella. Lo que se hace es que se desvincula al trabajador de esa brigada.\n\nEsto se hizo con la finalidad de si se desea eliminar solamente la brigada y mantener los trabajadores para asignarlos a una nueva\n\n**Respuesta**\n\n![](https://content.pstmn.io/11567805-cd7f-4aaa-b681-8179dba9a069/dC5wbmc=)\n\n**Respuesta sin brigada asociada**\n\n![](https://content.pstmn.io/a7cc7bf5-e55b-4a1d-aff9-bcbba632c081/dHNpLnBuZw==)"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearTrabajadores",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "kelly",
+									"type": "text"
+								},
+								{
+									"key": "cedula",
+									"value": "1192798403",
+									"type": "text"
+								},
+								{
+									"key": "tel",
+									"value": "3184414686",
+									"type": "text"
+								},
+								{
+									"key": "ocupacion",
+									"value": "Ingeniera",
+									"type": "text"
+								},
+								{
+									"key": "brigada",
+									"value": "62f1f7ebc361807bdb00914a",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workers"
+							]
+						},
+						"description": "Crea los trabajadores, para crear un trabajador se le debe asignar inicialmente a la brigada que va a pertenecer.\n\nEn el caso que se le asigne una brigada que no existe retornara un mensaje indicandolo"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarTrabajador",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Natalia",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "cedula",
+									"value": "1192798402",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "tel",
+									"value": "3184414686",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "ocupacion",
+									"value": "Ingeniera",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "brigada",
+									"value": "62f1f7ebc361807bdb00914a",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "62f1f05028aafb97868b43ee",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workers"
+							]
+						},
+						"description": "Para actualizar un trabajador se le debe asignar el id del trabajador que queremos modificar, y le pasamos los datos que van a hacer actualizados"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarTrabajador",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/workers/62f2a27c8fb8f61501176f1e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workers",
+								"62f2a27c8fb8f61501176f1e"
+							]
+						},
+						"description": "Para eliminar un trabajador el pasamos el id del trabajador que queremos eliminar, podemos consultar el método GET para escoger especificamente cual es el trabajador"
+					},
+					"response": []
+				}
+			],
+			"description": "Colección para gestionar los trabajadores",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Elementos",
+			"item": [
+				{
+					"name": "ObtenerEstados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/elements/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"elements",
+								"status"
+							]
+						},
+						"description": "Obtiene todos los estados\n\n**Respuesta**\n\n![](https://content.pstmn.io/12fc5ea6-9e1d-454d-8bd7-4c5c2e5c10d3/ZXN0YWRvcy5wbmc=)"
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerElementos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/elements",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"elements"
+							]
+						},
+						"description": "Obtiene todos los elementos existentes\n\n**Importante:**\n\nCuando se elimina un trabajador inmediatamente se eliminan todos los elementos asociados a ese trabajador"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearElementos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "longitud",
+									"value": "45",
+									"description": "\n",
+									"type": "text"
+								},
+								{
+									"key": "latitud",
+									"value": "67",
+									"type": "text"
+								},
+								{
+									"key": "trabajador",
+									"value": "62f1f05028aafb97868b43ee",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/elements",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"elements"
+							]
+						},
+						"description": "A través del cuerpo de solicitud creamos los elementos, debemos pasarle el id del trabajador que creó ese elemento.\n\nSe valida que exista el trabajador, en caso de que no exista se retorna lo siguiente\n\n![](https://content.pstmn.io/67e998f4-baf7-425a-9892-0723426211da/Y3JlYS10cmEucG5n)\n\nAl momento de crear el elemento el estado por defecto es **Creado**"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarElementos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "longitud",
+									"value": "100",
+									"description": "\n",
+									"type": "text"
+								},
+								{
+									"key": "latitud",
+									"value": "67",
+									"type": "text"
+								},
+								{
+									"key": "trabajador",
+									"value": "1192798404",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "62f1fa742180d0c108329065",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "62f1f251d3257a7572e6c790",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/elements",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"elements"
+							]
+						},
+						"description": "Para actualizar un elemento le pasamos el Id del elemento que queremos actualizar, luego los datos que queremos actualizar\n\nPara el estado y el trabajador se le deben de pasar el id"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarElementos",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/elements/62f1fa742180d0c108329065",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"elements",
+								"62f1fa742180d0c108329065"
+							]
+						},
+						"description": "Para eliminar un elemento le pasamos el Id, este lo podemos consultar en el método **GET**"
+					},
+					"response": []
+				}
+			],
+			"description": "Colección para gestionar los elementos",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZjE1NjUxNGYyMDdjYzI1Y2JhOTZhOCIsImVtYWlsIjoia2VsbDRAZ21haWwuY29tIiwiaWF0IjoxNjYwMDcxMTAxLCJleHAiOjE2NjAwNzQ3MDF9.YNpSl6xKEupRbDuUbFsDdV9428khdgRMiJxy2wHz5M8",
+			"type": "string"
+		}
+	]
+}
